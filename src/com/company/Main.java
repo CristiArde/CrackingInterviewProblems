@@ -1,6 +1,8 @@
 package com.company;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 public class Main {
 
@@ -151,6 +153,88 @@ public class Main {
         }
     }
 
+    //Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0.
+    // first check and keep track of what row and column has 0.
+    // use row and column array to keep track of the zeros
+    // if we dont use that and replace in place we will end up with all matrix being 0
+    public  static void setMatrixZero(int [][] matrix){
+        int[] row = new int[matrix.length];
+        int[] col = new int[matrix[0].length];
+        for (int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length;j++){
+                if(matrix[i][j] == 0){
+                    row[i] = 1;
+                    col[j] = 1;
+                }
+            }
+        }
+        // Set arr[i][j] to 0 if either row i or column j has a 0
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if ((row[i] == 1 || col[j] == 1)) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
 
+    }
+
+    static class node
+    {
+        int val;
+        node next;
+
+        public node(int val)
+        {
+            this.val = val;
+        }
+    }
+    //Write code to remove duplicates from an unsorted linked list.
+    //3 approaches
+        //use 2 for loops
+        // sort and remove dup
+        // use hashing
+    public static void deleteDups(node head) {
+        HashSet<Integer> hash = new HashSet<>();
+        node current = head;
+        node previous = null;
+        while (current != null){
+            int curval = current.val;
+            if(hash.contains(curval)) // if seen before skip with prev node to remove dup.
+                previous.next = current.next;
+            else {
+                hash.add(curval); //add to hash if never seen before
+                previous = current;
+            }
+            current = current.next;
+        }
+    }
+
+    //Implement an algorithm to find the nth to last element of a singly linked list.
+    // list 1-> 2 -> 3 -> 4 -> 5
+    //for n = 1 output = 4
+    //for n = 2 output = 3
+    //for n = 3 output = 2
+    public static node nthToLast( node head, int n){
+        if (head == null || n < 1) {
+             return null;
+        }
+        node p1 = head;
+        node p2 = head;
+        for (int j = 0; j < n - 1; ++j) { // skip n-1 steps ahead
+             if (p2 == null) {
+                return null; // not found since list size < n
+            }
+            p2 = p2.next;
+         }
+
+         while (p2.next != null) {
+             p1 = p1.next;
+             p2 = p2.next;
+         }
+         return p1;
+
+    }
+  //page 120
 }
 
